@@ -17,56 +17,72 @@ int out;
 void init_queue()
 {
 	index_push = 0;
-	index_pop = ARRAY_SIZE-1;
+	index_pop = 0;
 }
 
-/*int NextPlace (int index)
+int NextPush (int index) //function for promotion index_push
 {
-	int nextPlace;
-	nextPlace = index+1;
-	if (nextPlace = ARRAY_SIZE)
+	int index_push_next;
+	index_push_next = index + 1;
+	if (index_push_next == ARRAY_SIZE)
 	{
-		nextPlace = 0;
+		index_push_next = 0;
 	}
 	
-
-	return nextPlace;
+	return index_push_next;
 }
-*/
 
 void push_queue(int num)
 {
-	//if (!(index_push == index_pop))
-	if ((index_push != index_pop) && (index_push < ARRAY_SIZE))
+	int index_push_next = NextPush(index_push);
+
+	if (index_push_next == index_pop)
+	{
+		printf("Error, no free space.\n");	// no room
+	}
+	else
+	{
+		// insert num to array
+		my_array[index_push] = num;
+		index_push = index_push_next;
+	}
+
+	/*//if (!(index_push == index_pop))
+	if ((index_pop != index_push+1) || (index_push == ARRAY_SIZE-1)&&(index_pop!=0))
 	{
 		my_array[index_push] = num;
 		index_push++;
 	}
-	if (index_push == ARRAY_SIZE && (index_pop!=0))
+	if (index_push==ARRAY_SIZE-1 && (index_pop!=0))
 	{
 		index_push = 0;
 		my_array[index_push] = num;
 	}
+*/
 }
 
 	//printf("Error\n");
 
 int pop_queue()
 {
-	
 	//if ((index_pop<ARRAY_SIZE) && (index_push>index_pop))
-	if (index_push != index_pop && index_pop<ARRAY_SIZE)
+	if (index_pop!=index_push)
+		//index_pop<ARRAY_SIZE 
 	{
 		out = my_array[index_pop];
 		index_pop++;
-		if (index_pop == ARRAY_SIZE-1)
+		if (index_pop == ARRAY_SIZE)
 			index_pop = 0;
+	}
+	else
+	{
+		out = -1;
+		printf("Error, queue is empty.\n");	// no room
 	}
 
 	return out;
 	
 }
-
 
 int main(int argc, char* argv[])
 {
